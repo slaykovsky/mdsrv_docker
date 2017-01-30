@@ -4,7 +4,7 @@ FROM fedora
 MAINTAINER Alexey Slaykovsky <alexey@slaykovsky.com>
 
 RUN dnf update -yq
-RUN dnf install -yq cmake make mysql++-devel gcc gcc-c++ boost-devel tar qt5-devel
+RUN dnf install -yq wget cmake make mysql++-devel gcc gcc-c++ boost-devel tar qt5-devel
 
 ENV WT_VERSION 3.3.6
 WORKDIR /tmp
@@ -21,8 +21,8 @@ RUN make -j$(nproc) install
 
 ENV DOCKERIZE_VERSION v0.3.0
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
-    && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+	&& tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+	&& rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 RUN rm -rf /var/cache/*
 RUN rm -rf /var/tmp/*
