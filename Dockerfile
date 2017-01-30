@@ -11,6 +11,9 @@ RUN dnf install -yq wget cmake make mysql++-devel gcc \
 ENV CC /usr/bin/clang
 ENV CXX /usr/bin/clang++
 
+ENV CFLAGS "-Wall -O2 -pipe -msse -m64"
+ENV CXXFLAGS "-Wall -O2 -pipe -msse -m64"
+
 ENV WT_VERSION 3.3.6
 WORKDIR /tmp
 RUN curl -o $WT_VERSION.tar.gz https://codeload.github.com/emweb/wt/tar.gz/$WT_VERSION
@@ -20,8 +23,6 @@ RUN sed -i "s:storage_engine:default_storage_engine:g" \
 RUN mkdir wt-build
 WORKDIR wt-build
 RUN cmake /tmp/wt-$WT_VERSION
-ENV CFLAGS "-Wall -Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
-ENV CXXFLAGS "-Wall -Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
 RUN make -j$(nproc) install
 
 ENV DOCKERIZE_VERSION v0.3.0
