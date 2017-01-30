@@ -6,7 +6,7 @@ MAINTAINER Alexey Slaykovsky <alexey@slaykovsky.com>
 RUN dnf update -yq
 RUN dnf install -yq wget cmake make mysql++-devel gcc \
 	gcc-c++ boost-devel tar qt5-devel community-mysql \
-	clang
+	clang iputils
 
 ENV CC /usr/bin/clang
 ENV CXX /usr/bin/clang++
@@ -20,8 +20,8 @@ RUN sed -i "s:storage_engine:default_storage_engine:g" \
 RUN mkdir wt-build
 WORKDIR wt-build
 RUN cmake /tmp/wt-$WT_VERSION
-ENV CFLAGS "-Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
-ENV CXXFLAGS "-Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
+ENV CFLAGS "-Wall -Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
+ENV CXXFLAGS "-Wall -Ofast -s -pipe -march=generic -mtune=generic -masm=intel -msse -m64"
 RUN make -j$(nproc) install
 
 ENV DOCKERIZE_VERSION v0.3.0
