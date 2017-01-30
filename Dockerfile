@@ -4,7 +4,12 @@ FROM fedora
 MAINTAINER Alexey Slaykovsky <alexey@slaykovsky.com>
 
 RUN dnf update -yq
-RUN dnf install -yq wget cmake make mysql++-devel gcc gcc-c++ boost-devel tar qt5-devel
+RUN dnf install -yq wget cmake make mysql++-devel gcc \
+	gcc-c++ boost-devel tar qt5-devel community-mysql \
+	clang
+
+ENV CC /usr/bin/clang
+ENV CXX /usr/bin/clang++
 
 ENV WT_VERSION 3.3.6
 WORKDIR /tmp
