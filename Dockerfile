@@ -1,12 +1,13 @@
 # Development environment container for server developers.
 FROM fedora
 
-MAINTAINER Alexey Slaykovsky <alexey@slaykovsky.com>
+LABEL maintainer "alexey@slaykovsky.com"
+LABEL description "Complete development environment for MD server."
+LABEL version "1.0"
 
 RUN dnf update -yq
 RUN dnf install -yq wget cmake make gcc gcc-c++ boost-devel \
-	tar qt5-devel mariadb-devel clang iputils git \
-	fcgi-devel mariadb-libs mariadb findutils
+	tar qt5-devel mariadb-devel clang git mariadb-libs mariadb
 
 ENV CC /usr/bin/clang
 ENV CXX /usr/bin/clang++
