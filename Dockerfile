@@ -3,16 +3,16 @@ FROM fedora
 
 LABEL maintainer "alexey@slaykovsky.com"
 LABEL description "Complete development environment for MD server."
-LABEL version "1.0"
+LABEL version "1.1"
 
 RUN dnf update -yq
-RUN dnf install -yq wget cmake make gcc gcc-c++ boost-devel \
+RUN dnf install -yq wget cmake make gcc gcc-c++ boost-devel clang-analyzer \
 	tar qt5-devel mariadb-devel clang git mariadb-libs mariadb
 
 ENV CC /usr/bin/clang
 ENV CXX /usr/bin/clang++
-ENV CFLAGS "-Os -pipe -m64"
-ENV CXXFLAGS "-Os -pipe -m64"
+ENV CFLAGS "-O4 -pipe -m64"
+ENV CXXFLAGS "-O4 -pipe -m64"
 ENV WT_VERSION 3.3.6
 ENV DOCKERIZE_VERSION v0.3.0
 
