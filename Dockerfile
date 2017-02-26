@@ -1,32 +1,29 @@
 # Development environment container for server developers.
-FROM fedora
+FROM alpine:latest
 
 LABEL maintainer "alexey@slaykovsky.com"
 LABEL description "Complete development environment for MD server."
 LABEL version "1.1"
 
-RUN dnf update -yq
-RUN dnf install -yq wget cmake make gcc gcc-c++ boost-devel clang-analyzer \
-	tar qt5-devel mariadb-devel clang git mariadb-libs mariadb
+RUN apk update && apk upgrade
+RUN apk add wget cmake make boost-dev bash gcc \
+	tar mariadb-dev git qt5-qtbase-dev g++
 
-ENV CC /usr/bin/clang
-ENV CXX /usr/bin/clang++
-ENV CFLAGS "-O4 -pipe -m64"
-ENV CXXFLAGS "-O4 -pipe -m64"
-ENV WT_VERSION 3.3.6
+ENV CFLAGS "-mtune=generic -march=x86-64 -m64 -Os -pipe"
+ENV CXXFLAGS $CFLAGS
+ENV WT_VERSION master
 ENV DOCKERIZE_VERSION v0.3.0
 
 WORKDIR /tmp
-RUN curl -o $WT_VERSION.tar.gz https://codeload.github.com/emweb/wt/tar.gz/$WT_VERSION
+RUN wget https://github.com/emweb/wt/archive/master.tar.gz
 RUN tar xf $WT_VERSION.tar.gz
-RUN sed -i "s:storage_engine:default_storage_engine:g" \
-	/tmp/wt-$WT_VERSION/src/Wt/Dbo/backend/MySQL.C
 
 RUN mkdir wt-build
+
 WORKDIR wt-build
 RUN cmake -DMYSQL_LIBRARY=mysqlclient \
 	/tmp/wt-$WT_VERSION
-RUN make -j$(nproc) install
+RUN make install
 
 WORKDIR /tmp
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
