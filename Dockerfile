@@ -41,5 +41,4 @@ RUN rm -rf /sbin/sln
 RUN rm -rf /var/tmp/*
 RUN rm -rf /tmp/*
 
-RUN mkdir -p --mode=0755 /var/cache/ldconfig
-RUN mkdir -p --mode=0755 /var/cache/dnf
+RUN mkdir -p -m 0755 /var/cache/ldconfig
