@@ -23,7 +23,7 @@ RUN mkdir wt-build
 WORKDIR wt-build
 RUN cmake -DMYSQL_LIBRARY=mysqlclient \
 	/tmp/wt-$WT_VERSION
-RUN make install
+RUN make -j$(grep -c '^processor' /proc/cpuinfo) install
 
 WORKDIR /tmp
 RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
