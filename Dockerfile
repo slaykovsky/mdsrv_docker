@@ -3,7 +3,7 @@ FROM alpine:latest
 
 LABEL maintainer "alexey@slaykovsky.com"
 LABEL description "Complete development environment for MD server."
-LABEL version "1.1"
+LABEL version "2.0"
 
 RUN apk update && apk upgrade
 RUN apk add wget cmake make boost-dev bash gcc \
